@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Saldo</title>
+    <style>
+       body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #e0f7f4;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            color: #333;
+        }
+        .saldo {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .saldo h2 {
+            margin: 0;
+        }
+        .saldo img {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .income-expense {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .income, .expense {
+            width: 45%;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+        }
+        .income {
+            background-color: #e0f7e9;
+            color: #33c477;
+        }
+        .expense {
+            background-color: #fde9e9;
+            color: #f44336;
+        }
+        .saldo-info {
+            text-align: center;
+        }
+        .saldo-info h3 {
+            margin: 0;
+        }
+        .saldo-info h3 span {
+            display: block;
+        }
+        .transacoes {
+            margin-bottom: 20px;
+        }
+        .transacoes h3, .adicionar-transacao h3 {
+            color: #777;
+        }
+        .transacoes ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .transacoes li {
+            background-color: #fff;
+            border-left: 5px solid #33c477;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .transacoes .visible {
+            display: block; 
+        }
+        .transacoes .expense {
+            border-left-color: #f44336;
+        }
+        .adicionar-transacao {
+            margin-bottom: 20px;
+        }
+        .adicionar-transacao label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .adicionar-transacao input {
+            width: calc(100% - 25px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            position: relative;
+        }
+        .adicionar-transacao button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: #000000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .adicionar-transacao button:hover {
+            background-color: #45a049;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="saldo">
+        <div class="saldo-info">
+            <h2>Saldo Atual</h2>
+            <h3><span id="saldo-atual">R$ 0,00</span></h3>
+        </div>
+        <div class="income-expense">
+            <div class="income">
+                <h3>Receitas</h3>
+                <p id="total-receitas">R$ 0,00</p>
+            </div>
+            <div class="expense">
+                <h3>Despesas</h3>
+                <p id="total-despesas">R$ 0,00</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="transacoes">
+        <h3 style="color: #808080;">Últimas Transações</h3>
+        <ul id="lista-transacoes">
+            <!-- As transações serão adicionadas aqui -->
+        </ul>
+    </div>
+
+    <div class="adicionar-transacao">
+        <h3 style="color: #808080;">Adicionar Transação</h3>
+        <form id="form-transacao">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" required><br>
+            <label for="valor">Valor:</label>
+            <p id="valor-explicacao" style="font-size: 12px; color: #808080; margin-bottom: 5px;">(Negativo - Despesas, Positivo - Receita)</p>
+            <input type="number" id="valor" required><br>
+            <button type="submit" class="botao">Adicionar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    let saldoAtual = 0;
+    let totalReceitas = 0;
+    let totalDespesas = 0;
+    const listaTransacoes = document.getElementById('lista-transacoes');
+
+    function atualizarSaldo() {
+        document.getElementById('saldo-atual').innerText = saldoAtual.toFixed(2);
+        document.getElementById('total-receitas').innerText = totalReceitas.toFixed(2);
+        document.getElementById('total-despesas').innerText = totalDespesas.toFixed(2);
+    }
+
+    function adicionarTransacao(nome, valor) {
+        const transacao = document.createElement('li');
+        const valorFormatado = parseFloat(valor).toFixed(2);
+        transacao.innerText = `R$ ${valorFormatado} - ${nome}`;
+        
+        const transacoes = listaTransacoes.querySelectorAll('li');
+        if (transacoes.length >= 2) {
+            transacoes[transacoes.length - 1].remove();
+        }
+        transacao.classList.add('visible');
+        
+        listaTransacoes.prepend(transacao);
+
+        saldoAtual += parseFloat(valor);
+        if (parseFloat(valor) >= 0) {
+            totalReceitas += parseFloat(valor);
+        } else {
+            totalDespesas += parseFloat(valor);
+        }
+
+        atualizarSaldo();
+    }
+
+    document.getElementById('form-transacao').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const nome = document.getElementById('nome').value;
+        const valor = parseFloat(document.getElementById('valor').value);
+        if (!isNaN(valor)) {
+            adicionarTransacao(nome, valor);
+            document.getElementById('form-transacao').reset();
+        } else {
+            alert('Por favor, insira um valor numérico válido.');
+        }
+    });
+
+    atualizarSaldo();
+</script>
+
+</body>
+</html>
