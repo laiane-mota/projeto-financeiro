@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Controle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e0f7f4;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 350px;
+        }
+        .container img.logo {
+            width: 200px;
+            display: block;
+            margin: 0 auto -30px;
+        }
+        .container h1 {
+            font-size: 22px;
+            margin: 0 0 10px;
+            text-align: left; 
+            padding-left: 50px;
+        }
+        .container h1 .bem {
+            color: #808080;
+        }
+        .container h1 .vindo {
+            color: #4CAF50;
+        }
+        .container img.safe-image {
+            width: 250px;
+            margin-bottom: 10px;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            max-width: 250px;
+            margin: 5px auto;
+            padding: 8px;
+            text-align: center;
+            background-color: #4CAF50;
+            color: #000000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .button:hover {
+            background-color: #45a049;
+            color: #ffffff;
+        }
+        .login-text {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .login-text .ja-tem-conta {
+            color: #4CAF50;
+        }
+        .login-text .fazer-login {
+            color: #000000;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .login-text .fazer-login:hover {
+            color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://i.imgur.com/H4abr0v.png" alt="Meu Controle Logo" class="logo">
+        <h1><span class="bem">Bem-</span><span class="vindo">Vindo</span></h1>
+        <img src="https://i.imgur.com/bkRKmGA.png" alt="Safe Image" class="safe-image">
+        <a href="tela 2.html" class="button">Criar uma conta</a>
+        <div class="login-text">
+            <span class="ja-tem-conta">Já tem conta?</span>
+            <span class="fazer-login" onclick="window.location.href='tela 3.html'">Fazer login</span>
+        </div>
+    </div>
+</body>
+</html>
